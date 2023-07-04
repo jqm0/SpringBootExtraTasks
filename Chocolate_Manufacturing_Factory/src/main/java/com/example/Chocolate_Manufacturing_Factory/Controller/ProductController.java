@@ -25,7 +25,7 @@ public class ProductController {
     }
 
     @PutMapping("/api/products/{productId}")
-    public ResponseEntity<String> updateProduct(@PathVariable Long productId, @RequestBody ProductUpdate productUpdate) {
+    public ResponseEntity<String> updateProduct(@PathVariable Long productId, @RequestBody ProductRequestObj productUpdate) {
         try {
             productService.update(productId,productUpdate);
             return ResponseEntity.ok("Todo item updated successfully");

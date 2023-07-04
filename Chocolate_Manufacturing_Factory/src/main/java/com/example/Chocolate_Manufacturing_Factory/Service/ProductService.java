@@ -6,7 +6,6 @@ import com.example.Chocolate_Manufacturing_Factory.Repository.ProductRepo;
 import com.example.Chocolate_Manufacturing_Factory.RequestObject.ProductRequestObj;
 import com.example.Chocolate_Manufacturing_Factory.UpdateRequest.ProductUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -33,26 +32,15 @@ public class ProductService {
         productRepo.save(product);
     }
 
-    public void update(Long productID, ProductUpdate productUpdate) {
+    public void update(Long productID, ProductRequestObj productRequestObj) {
         Product product = productRepo.findById(productID)
-                .orElseThrow(() -> new ChangeSetPersister.NotFoundException("Recipe not found with id: " + productID));
+                .orElseThrow(() -> new NotFoundException("Recipe not found with id: " + productID));
 
-        Recipe updatedRecipe = RecipeRequest.convertToEntity(recipe, recipeRequest);
-        updatedRecipe.setUpdatedDate(new Date());
+        Product updatedProduct = ProductRequestObj.convertToEntity(product, productRequestObj);
+        updatedProduct.setUpdatedDate(new Date());
 
-        recipeRepository.save(updatedRecipe);
-        Optional<Product> optionalProduct = productRepo.findById(productID);
-        if (optionalProduct.isPresent()) {
+        productRepo.save(updatedProduct);
 
-            Product product = optionalProduct.get();
-            product.setName(name);
-            product.setIngredients(ingredients);
-            product.setPrice(price);
-            product.setQuantity(quantity);
-            productRepo.save(product);
-        } else {
-            throw new productNotFoundException("Todo item not found with ID: " + productID);
-
-    }}}
+    }}
 
 
