@@ -27,11 +27,7 @@ public class ProductController {
     @PutMapping("/api/products/{productId}")
     public ResponseEntity<String> updateProduct(@PathVariable Long productId, @RequestBody ProductUpdate productUpdate) {
         try {
-            String name = productUpdate.getName();
-            String ingredients = productUpdate.getIngredients();
-            Double price = productUpdate.getPrice() ;
-            Integer quantity = productUpdate.getQuantity() ;
-            productService.update(productId,name,ingredients,price,quantity);
+            productService.update(productId,productUpdate);
             return ResponseEntity.ok("Todo item updated successfully");
         } catch (productNotFoundException e) {
             return ResponseEntity.notFound().build();
